@@ -1,0 +1,98 @@
+/* Import font chu */
+@import url('https://fonts.googleapis.com/css2?family=Betania+Patmos&family=Betania+Patmos+In&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Pontano+Sans:wght@300..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+*
+{
+   margin:0px;
+   padding : 0px;
+   box-sizing: border-box;
+   font-family: "Pontano Sans", sans-serif;
+}
+/* Su dung cho bo website */
+a
+{
+    text-decoration: none;
+}
+ul
+{
+    list-style: none;
+}
+button
+{
+    cursor: pointer;
+    border:none;
+    background: none;
+}
+img
+{
+    width: 100%;
+}
+
+/* Header navbar*/
+header
+{
+    background-color: rgb(128,128,128);
+}
+.section-content
+{
+    margin : 0 auto;
+    padding : 20px auto ;
+    max-width: 1300px;
+
+}
+header .nav-bar
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding:20px;
+}
+.nav-bar .nav-logo
+{
+    width: 100px;
+}
+.nav-bar .nav-logo .logo-text
+{
+    color:white;
+    font-weight: bold;
+}
+.nav-bar .nav-menu
+{
+    display: flex;
+    gap: 10px;
+}
+.nav-bar .nav-menu .nav-links
+{
+    position: relative;
+    padding : 10px 18px;
+    color:white;
+    font-size : 20px;
+    transition: 0.3s ease;
+    display: inline-block
+}
+.nav-bar .nav-menu .nav-links:hover
+{
+    color:black;
+    font-weight: bold;
+}
+.nav-bar .nav-menu .nav-links::after
+{
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left:0;
+    width :0px;
+    height: 3px;
+    transition: width 0.3s ease;
+    background: linear-gradient(to right, #777777, #333333); 
+}
+.nav-bar .nav-menu .nav-links:hover::after
+{
+    width: 100%;
+}
+.nav-bar .nav-menu .nav-links img
+{
+    width: 20px;
+    color:white;
+}
+
+
