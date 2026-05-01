@@ -100,15 +100,19 @@ header .nav-bar
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background:;
+    background: url(/Images/cristiano-ronaldo-3840x2160-9619.jpg) no-repeat;
+    background-size:cover ;
+    background-position: center;
 }
 .wrapper
 {
     width: 420px;
     padding : 30px 40px;
-    background-color: blue;
+    background:transparent;
     border-radius: 12px;
     color:white;
+    border: 2px solid rgba(255, 255, 255, .2);
+    backdrop-filter: blur(10px);
 }
 .wrapper h1
 {
