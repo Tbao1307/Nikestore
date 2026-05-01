@@ -100,7 +100,7 @@ header .nav-bar
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: url(/Images/cristiano-ronaldo-3840x2160-9619.jpg) no-repeat;
+    background: url(../Images/cristiano-ronaldo-3840x2160-9619.jpg) no-repeat;
     background-size:cover ;
     background-position: center;
 }
