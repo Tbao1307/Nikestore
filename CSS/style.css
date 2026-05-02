@@ -94,6 +94,7 @@ header .nav-bar
     width: 20px;
     color:white;
 }
+/* Login & register */
 .main-user
 {
     display: flex;
@@ -112,7 +113,7 @@ header .nav-bar
     border-radius: 12px;
     color:white;
     border: 2px solid rgba(255, 255, 255, .2);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(30px);
 }
 .wrapper h1
 {
@@ -137,6 +138,7 @@ header .nav-bar
     font-size:16px;
     color:#ffffff;
     padding:20px 45px 20px 20px;
+    font-weight: bold;
 }
 .input-box input::placeholder
 {
@@ -186,6 +188,151 @@ header .nav-bar
 .register-link p a:hover{
     text-decoration: underline;
 }
+
+/* Hero */
+.hero-section
+{
+    min-height: 90vh;
+    background: rgb(128,128,128);
+}
+.hero-image img
+{
+    width: 45rem;
+    box-shadow: 10px black;
+    border-radius: 50px 0px 0px 50px ;
+}
+
+.hero-section .section-content
+{
+    display: flex;
+    align-items: center;
+    min-height: 70vh;
+    color:white;
+    justify-content: space-between;
+}
+.hero-section .hero-details .title
+{
+    font-size:50px;
+    font-family: "Open Sans", sans-serif;
+    color:black;
+    font-weight: bold;
+}
+.hero-section .hero-details .subtitle
+{
+    font-size:25px;
+    margin-top:8px;
+    max-width: 70%;
+}
+.hero-section .hero-details .description
+{
+    font-size:17px;
+    margin:24px 0 40px;
+    max-width: 70%;
+}
+.hero-section .hero-details .button
+{
+    align-items: center;
+    margin-left:50px;
+}
+
+.hero-section .hero-details .button-order
+{
+    color:black;
+    padding : 10px 26px;
+    background: #fff;
+    border-radius: 20px;
+    margin-left:30px;
+}
+.hero-section .hero-details .button-order:hover
+{
+    color:white;
+    padding : 10px 26px;
+    background: black;
+    border-radius: 20px;
+    margin-left:30px;
+    transition: 0.3s ease;
+}
+.hero-section .hero-details .button-contact
+{
+    color:black;
+    padding : 10px 26px;
+    background: #fff;
+    border-radius: 20px;
+    margin-left:30px;
+}
+.hero-section .hero-details .button-contact:hover
+{
+    color:white;
+    padding : 10px 26px;
+    background: black;
+    border-radius: 20px;
+    margin-left:30px;
+    transition: 0.3s ease;
+}
+
+/* About section */
+.about-section
+{
+    padding : 100px 0 0 0;
+    min-height: 100vh;
+}
+.about-section .section-content
+{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.about-image-wrapper img
+{
+    width: 45rem;
+    object-fit: cover;
+    border-radius: 100px;
+}
+.about-details
+{
+    margin-left: 80px;
+}
+.about-details h2
+{
+    color:green;
+    text-align: center;
+    font-size:50px;
+    padding-bottom: 20px;
+    font-family: "Betania Patmos", cursive;
+    font-weight: 400;
+    font-style: normal;
+    margin-left: 30px;
+}
+.about-details p
+{
+    font-size:20px;
+    margin-left:50px;
+    text-align: center;
+}
+.section-title::after
+{
+    content:"";
+    width:200px;
+    height: 5px;
+    display:block;
+    margin:10px 10px 10px 150px;
+    background: yellow;
+}
+.social-list-link
+{
+    display: flex;
+    justify-content: center;
+    margin-top:20px;
+    margin-left:50px;
+    gap:25px;
+    
+}
+.social-list-link img{
+    width: 20px;
+    align-items: center;
+    justify-content: center;
+}
+
 
 
 
