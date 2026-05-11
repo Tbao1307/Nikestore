@@ -5,6 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NIKE STORE</title>
     <link rel="stylesheet" href="CSS/style.css">
+    <script>
+        window.onscroll = function() {
+            const header = document.querySelector("header");
+            if (window.scrollY > 50) {
+                header.classList.add("scrolled");
+            } else {
+                header.classList.remove("scrolled");
+            }
+        };
+        
+    </script>
 </head>
 <body>
    <header>
@@ -45,8 +56,8 @@
                         Chào mừng bạn đến với thiên đường giày Nike, nơi mỗi bước chân đều mang lại sự thoải mái tối đa và khẳng định cá tính riêng biệt của bạn
                     </p>
                     <div class="button">
-                        <a href="#" class="button-order">Đặt hàng</a>
-                        <a href="#" class="button-contact">Liên hệ</a>
+                        <a href="#menu" class="button-order">Đặt hàng</a>
+                        <a href="#contact" class="button-contact">Liên hệ</a>
                     </div>
                 </div>
                 <div class="hero-image">
@@ -89,51 +100,91 @@
                     <img src="Images/AIR+JORDAN+1+LOW+G.avif" alt="AIR JORDAN 1 LOW G">
                     <h3 class="name">AIR JORDAN 1 LOW+G</h3>
                     <p class="text">3,959,000₫</p>
+                    <div class="menu-button">
+                        <a href="" class="button-order">Đặt hàng</a>
+                        <a href="" class="button-thongtin">Thông Tin</a>
+                    </div>
                 </li>
                 <li class="menu-items">
                     <img src="Images/AIR+JORDAN+1+MID+SE (1).avif" alt="AIR JORDAN 1 ID SE (1)">
                     <h3 class="name">AIR JORDAN 1 MID SE</h3>
                     <p class="text">3,700,000₫</p>
+                    <div class="menu-button">
+                        <a href="" class="button-order">Đặt hàng</a>
+                        <a href="" class="button-thongtin">Thông Tin</a>
+                    </div>
                 </li>
                 <li class="menu-items">
                     <img src="Images/AIR+JORDAN+1+MID+SE.avif" alt="AIR JORDAN 1 MID SE">
                     <h3 class="name">AIR JORDAN 1 MID SE</h3>
                     <p class="text">3,700,000₫</p>
+                    <div class="menu-button">
+                        <a href="" class="button-order">Đặt hàng</a>
+                        <a href="" class="button-thongtin">Thông Tin</a>
+                    </div>
                 </li>
                 <li class="menu-items">
                     <img src="Images/JORDAN+CMFT+ERA.avif" alt="JORDAN CMFT ERA">
                     <h3 class="name">JORDAN CMFT ERA</h3>
                     <p class="text">3,799,000₫</p>
+                    <div class="menu-button">
+                        <a href="" class="button-order">Đặt hàng</a>
+                        <a href="" class="button-thongtin">Thông Tin</a>
+                    </div>
                 </li>
                 <li class="menu-items">
                     <img src="Images/JORDAN+MVP+92.avif" alt="JORDAN MVP 92">
                     <h3 class="name">JORDAN MVP 92</h3>
                     <p class="text">4,199,000₫</p>
+                    <div class="menu-button">
+                        <a href="" class="button-order">Đặt hàng</a>
+                        <a href="" class="button-thongtin">Thông Tin</a>
+                    </div>
                 </li>
                 <li class="menu-items">
                     <img src="Images/TIEMPO+MAESTRO+ELITE+FG+SE.avif" alt="TIEMPO MAESTRO ELITE FG SE">
                     <h3 class="name">TIEMPO MAESTRO ELITE FG SE</h3>
                     <p class="text">3,199,000₫</p>
+                    <div class="menu-button">
+                        <a href="" class="button-order">Đặt hàng</a>
+                        <a href="" class="button-thongtin">Thông Tin</a>
+                    </div>
                 </li>
                 <li class="menu-items">
                     <img src="Images/AIR+JORDAN+1+LOW.avif" alt="AIR JORDAN 1 LOW">
                     <h3 class="name">AIR JORDAN 1 LOW</h3>
                     <p class="text">3,279,000₫</p>
+                    <div class="menu-button">
+                        <a href="" class="button-order">Đặt hàng</a>
+                        <a href="" class="button-thongtin">Thông Tin</a>
+                    </div>
                 </li>
                 <li class="menu-items">
                     <img src="Images/AIR+JORDAN+1+LOW (1).avif" alt="AIR JORDAN 1 LOW">
                     <h3 class="name">AIR JORDAN 1 LOW</h3>
                     <p class="text">3,299,000₫</p>
+                    <div class="menu-button">
+                        <a href="" class="button-order">Đặt hàng</a>
+                        <a href="" class="button-thongtin">Thông Tin</a>
+                    </div>
                 </li>
                 <li class="menu-items">
                     <img src="Images/AIR+JORDAN+1+LOW+G+SPK.avif" alt="AIR JORDAN 1 LOW G SPK">
                     <h3 class="name">AIR JORDAN 1 LOW G SPK</h3>
                     <p class="text">3,399,000₫</p>
+                    <div class="menu-button">
+                        <a href="" class="button-order">Đặt hàng</a>
+                        <a href="" class="button-thongtin">Thông Tin</a>
+                    </div>
                 </li>
                 <li class="menu-items">
                     <img src="Images/AIR+JORDAN+1+MID.avif" alt="AIR JORDAN 1 MID">
                     <h3 class="name">AIR JORDAN 1 MID</h3>
                     <p class="text">3,499,000₫</p>
+                    <div class="menu-button">
+                        <a href=" " class="button-order">Đặt hàng</a>
+                        <a href=" " class="button-thongtin">Thông Tin</a>
+                    </div>
                 </li>
             </ul>
 
@@ -182,5 +233,6 @@
         </div>
     </div>
    </footer>
+
 </body>
 </html>

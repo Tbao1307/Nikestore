@@ -32,11 +32,12 @@ img
 }
 
 /* Header navbar*/
-header
-{
+header {
     background-color: rgb(128,128,128);
     position: sticky;
-    top:0px;
+    top: 0px;
+    z-index: 1000; /* Đảm bảo header luôn nằm trên các phần tử khác */
+    transition: all 0.4s ease; /* Tạo hiệu ứng chuyển động mượt mà */
 }
 .section-content
 {
@@ -51,7 +52,22 @@ header .nav-bar
     justify-content: space-between;
     align-items: center;
     padding:20px;
+    transition: all 0.4s ease;
 }
+header.scrolled .section-content {
+    padding: 5px 0px; 
+}
+
+header.scrolled .nav-bar {
+    padding: 5px 20px; 
+}
+
+
+header.scrolled .nav-logo {
+    width: 70px; 
+    transition: all 0.4s ease;
+}
+
 .nav-bar .nav-logo
 {
     width: 100px;
@@ -186,7 +202,7 @@ header .nav-bar
 {
     padding : 100px 0 0 0;
     min-height: 100vh;
-    background-color: #98FB98;
+    background-color: #646864;
 }
 .about-section .section-content
 {
@@ -206,7 +222,7 @@ header .nav-bar
 }
 .about-details h2
 {
-    color:black;
+    color:white;
     text-align: center;
     font-size:50px;
     padding-bottom: 20px;
@@ -220,6 +236,7 @@ header .nav-bar
     font-size:20px;
     margin-left:50px;
     text-align: center;
+    color: white;
 }
 .section-title::after
 {
@@ -245,6 +262,10 @@ header .nav-bar
     justify-content: center;
 }
 /* Menu section */
+.menu-section
+{
+    min-height: 100vh;
+}
 .menu-section .menu-list
 {
     display: flex;
@@ -253,7 +274,7 @@ header .nav-bar
     justify-content: space-between;
     gap:110px;
 }
-.menu-section h2{
+.menu-section .menu-title {
     color:black;
     text-align: center;
     font-size:50px;
@@ -269,7 +290,10 @@ header .nav-bar
     height: 5px;
     display:block;
     margin:10px 10px 10px 40rem;
-    background: #CC0000;
+    background: #222020;
+}
+.menu-section, .contact-section, .about-section {
+    scroll-margin-top: 100px;
 }
 .menu-section .menu-list .menu-items
 {
@@ -287,8 +311,36 @@ header .nav-bar
     aspect-ratio: 1;
     width : 30rem;
     border-radius: 20px;
-    
 }
+.menu-section .menu-items .menu-button{
+
+    background: black;
+    border-radius: 20px;
+    margin:30px 0px 0px 0px;
+}
+.menu-section .menu-items .button-order,
+.menu-section .menu-items .button-thongtin {
+    color: white;
+    padding: 10px 20px;
+    background: black;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease;
+    display: inline-block;
+    border: none;
+}
+
+
+.menu-section .menu-items .button-order:hover,
+.menu-section .menu-items .button-thongtin:hover {
+    background: #ff5a00;
+    color: white;
+    box-shadow: 0 4px 15px rgba(255, 90, 0, 0.4);
+    transform: scale(1.05);
+}
+
 /* Footer-section */
 .footer-details
 {
@@ -397,23 +449,6 @@ header .nav-bar
     border-radius: 10px;
     align-items: center;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* Login & register */
 .main-user
 {
