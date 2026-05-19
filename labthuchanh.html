@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NIKE STORE</title>
+    <link rel="stylesheet" href="CSS/style.css">
+    <script>
+        window.onscroll = function() {
+            const header = document.querySelector("header");
+            if (window.scrollY > 50) {
+                header.classList.add("scrolled");
+            } else {
+                header.classList.remove("scrolled");
+            }
+        };
+        
+    </script>
+</head>
+<body>
+   <header>
+    <nav class="nav-bar section-content">
+        <a href="index.html" class="nav-logo">
+            <img src="Images/logo-nike.png" alt="">
+        </a>
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="index.html" class="nav-links">Trang Chủ</a>
+            </li>
+            <li class="nav-item">
+                <a href="#about" class="nav-links">Thông Tin</a>
+            </li>
+            <li class="nav-item">
+                <a href="#menu" class="nav-links">Mua Hàng</a>
+            </li>
+            <li class="nav-item">
+                <a href="#contact  " class="nav-links">Liên Hệ</a>
+            </li>
+            <li class="nav-item">
+                <a href="labthuchanh.html" class="nav-links">Lab Thực Hành</a>
+            </li>
+            <li class="nav-item">
+                <a href="login.html" class="nav-links"><img src="Images/user.png" alt=""></a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-links"><img src="Images/shopping-cart.png" alt=""></a>
+            </li>
+        </ul>
+    </nav>
+   </header> 
+   <main>
+        <!-- Menu -->
+         <div class="lab-container section-content">
+        <!-- Lab 01 -->
+        <div class="lab-card">
+            <h3 class="lab-title">Lab01: HTML</h3>
+            <div class="lab-list">
+                <a href="lab1_3.html">Lab1_3</a>
+                <a href="lab1_4.html">Lab1_4</a>
+            </div>
+            
+        </div>
+
+        <!-- Lab 02 -->
+        <div class="lab-card">
+            <h3 class="lab-title">Lab02: Table & List</h3>
+            <div class="lab-list">
+                <a href="lab02_1.html">Lab2_1</a>
+                <a href="lab02_2.html">Lab2_2</a>
+                <a href="lab02_3.html">Lab2_3</a>
+            </div>
+            
+        </div>
+
+        <!-- Lab 03 -->
+        <div class="lab-card">
+            <h3 class="lab-title">Lab03: Frame & Form</h3>
+            <div class="lab-list">
+                <a href="lab03_1.html">Lab3_1</a>
+                <a href="lab03_2.html">Lab3_2</a>
+                <a href="lab03_3.html">Lab3_3</a>
+            </div>
+            
+        </div>
+
+        <!-- Lab 04 -->
+        <div class="lab-card">
+            <h3 class="lab-title">Lab04: CSS cơ bản</h3>
+            <div class="lab-list">
+                <a href="lab4_1.html">Lab4_1</a>
+                <a href="lab4_2.html">Lab4_2</a>
+                <a href="lab4_3.html">Lab4_3</a>
+            </div>
+            
+        </div>
+
+        <!-- Lab 05 -->
+        <div class="lab-card">
+            <h3 class="lab-title">Lab05: Các thuộc tính CSS</h3>
+            <div class="lab-list">
+                <a href="lab5_1.html">Lab5_1</a>
+                <a href="lab5_2.html">Lab5_2</a>
+                <a href="lab5_3.html">Lab5_3</a>
+                <a href="lab5_4.html">Lab5_4</a>
+            </div>
+            
+        </div>
+
+        <!-- Lab 06 -->
+        <div class="lab-card">
+            <h3 class="lab-title">Lab06: Xây dựng layout responsive bằng CSS</h3>
+            <div class="lab-list">
+                <a href="lab6_1.html">Lab6_1</a>
+                <a href="lab6_2.html">Lab6_2</a>
+                <a href="lab6_3.html">Lab6_3</a>
+            </div>
+            
+        </div>
+
+        <!-- Lab 07 -->
+        <div class="lab-card">
+            <h3 class="lab-title">Lab07: Javascript</h3>
+            <div class="lab-list">
+                <a href="#">Lab7_1</a>
+                <a href="#">Lab7_2</a>
+            </div>
+            
+        </div>
+
+        <!-- Lab 08 -->
+        <div class="lab-card">
+            <h3 class="lab-title">Lab08: Javascript nâng cao</h3>
+            <div class="lab-list">
+                <a href="#">Lab8_1</a>
+                <a href="#">Lab8_2</a>
+                <a href="#">Lab8_3</a>
+            </div>
+            
+        </div>
+    </div>
+
+          <!-- Contact us -->
+           <section class="contact-section" id="contact">
+                <h2 class="contact-title">Liên Hệ</h2>
+                <div class="section-content">
+                        <ul class="contact-info-list">
+                            <li class="contact-info">67/18 Lâm Văn Bền, Phường Tân Hưng, Thành Phố Hồ Chí Minh, Việt Nam</li>
+                            <li class="contact-info">info@nikestore</li>
+                            <li class="contact-info">0934679388</li>
+                            <li class="contact-info">Thứ Hai - Chủ Nhật : 8:00 AM - 21:00 PM</li>
+                            <li class="contact-info">Chủ Nhật : Đóng Cửa</li>
+                            <li class="contact-info">www.nikestore.com</li>                       
+                        </ul>     
+                        <div class="contact-form">
+                            <form action="#" class="contact-form"></form>
+                            <input type="text" placeholder="Tên của bạn" class="form-input" required>
+                            <input type="text" placeholder="Email của bạn" class="form-input" required>
+                            <textarea name="" id="" placeholder="Nhập vào đây" class="form-input"></textarea>
+                            <button class="submit-button">Submit</button>
+                        </form> 
+                        </div>                                    
+                </div>
+           </section>
+         
+   </main>
+   <!-- Footer -->
+   <footer>
+    <div class="footer-section">
+        <div class="footer-details">
+            <p class="content">© 2026 Nike, Inc. All rights reserved</p>
+
+            <div class="link-content">
+                <a href="#" class="fb-icon"><img src="Images/facebook-logo_1384863.png" alt=""></a>
+                <a href="#" class="ins-icon"><img src="Images/instagram_15713420.png" alt=""></a>
+                <a href="#" class="x-icon"><img src="Images/letter_16169759.png" alt=""></a>
+            </div>
+
+            <p class="policy-text">
+                <a href="" class="policy-link1">Privacy policy</a>
+                <a href="" class="policy-link2">Refund policy</a>
+            </p>
+        </div>
+    </div>
+   </footer>
+
+</body>
+</html>
