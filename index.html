@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NIKE STORE</title>
-    <link rel="stylesheet" href="CSS/style.css">
+    <link rel="stylesheet" href="CSS/styleindex.css">
     <script>
+        
         window.onscroll = function() {
             const header = document.querySelector("header");
             if (window.scrollY > 50) {
@@ -14,7 +15,151 @@
                 header.classList.remove("scrolled");
             }
         };
+
+
+    document.addEventListener('DOMContentLoaded', function() {
         
+        let cart = JSON.parse(localStorage.getItem('nike_cart')) || [];
+
+        const cartSidebar = document.getElementById('cart-sidebar');
+        const cartIcon = document.getElementById('cart-icon-trigger');
+        const closeBtn = document.querySelector('.close-sidebar');
+        const overlay = document.getElementById('overlay');
+        const cartItemsList = document.getElementById('cart-items-list');
+        const cartTotalAmount = document.getElementById('cart-total-amount');
+        const cartCountBadge = document.getElementById('cart-count');
+
+        
+        if (cartIcon) {
+            cartIcon.addEventListener('click', function() {
+                cartSidebar.classList.add('active');
+                overlay.classList.add('active');
+            });
+        }
+
+        
+        const closeCart = () => {
+            cartSidebar.classList.remove('active');
+            overlay.classList.remove('active');
+        };
+        if (closeBtn) closeBtn.onclick = closeCart;
+        if (overlay) overlay.onclick = closeCart;
+
+        
+        function setupOrderButtons() {
+            const orderButtons = document.querySelectorAll('.button-order');
+            orderButtons.forEach(button => {
+                
+                button.onclick = null; 
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    
+                    const productCard = this.closest('.menu-items') || this.closest('.product-card');
+                    const name = productCard.querySelector('.name').innerText;
+                    const priceStr = productCard.querySelector('.text').innerText;
+                    const imgSrc = productCard.querySelector('img').src;
+                    
+                    
+                    const price = parseInt(priceStr.replace(/[^0-9]/g, ""));
+
+                    addProductToCart(name, price, imgSrc);
+
+                    
+                    const originalText = this.innerText;
+                    this.innerText = "Đã thêm!";
+                    setTimeout(() => this.innerText = originalText, 1000);
+                });
+            });
+        }
+
+        
+        function addProductToCart(name, price, img) {
+            const existingItem = cart.find(item => item.name === name);
+
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ name, price, img, quantity: 1 });
+            }
+
+            updateCartUI();
+        }
+
+        
+        window.changeQuantity = function(productName, amount) {
+            const itemIndex = cart.findIndex(item => item.name === productName);
+            
+            if (itemIndex > -1) {
+                cart[itemIndex].quantity += amount;
+                
+                
+                if (cart[itemIndex].quantity < 1) {
+                    cart.splice(itemIndex, 1);
+                }
+            }
+            updateCartUI();
+        };
+
+        
+        function updateCartUI() {
+            
+            localStorage.setItem('nike_cart', JSON.stringify(cart));
+
+            let totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const cartCountBadge = document.getElementById('cart-count');
+    
+            if (cartCountBadge) {
+                cartCountBadge.innerText = totalQty;
+                
+                if (totalQty > 0) {
+                    cartCountBadge.style.display = "flex";
+                } else {
+                    cartCountBadge.style.display = "none";
+                }
+            }
+            if (cartItemsList) {
+                cartItemsList.innerHTML = '';
+                let totalMoney = 0;
+
+                cart.forEach(item => {
+                    totalMoney += item.price * item.quantity;
+                    cartItemsList.innerHTML += `
+                        <div class="cart-item-ui" style="display: flex; gap: 15px; margin-bottom: 20px; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 15px;">
+                            <img src="${item.img}" alt="" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; background: #f6f6f6;">
+                            <div class="cart-item-info" style="flex: 1;">
+                                <h4 style="margin: 0; font-size: 15px; font-weight: bold;">${item.name}</h4>
+                                <p style="margin: 5px 0; color: #707072; font-size: 14px;">${item.price.toLocaleString()}₫</p>
+                                
+                                <div class="quantity-controls" style="display: flex; align-items: center; gap: 12px; margin-top: 8px;">
+                                    <button onclick="changeQuantity('${item.name}', -1)" class="btn-qty" style="width:25px; height:25px; border-radius:50%; border:1px solid #ddd; cursor:pointer;">-</button>
+                                    <span class="qty-num" style="font-weight: bold; font-size: 14px;">${item.quantity}</span>
+                                    <button onclick="changeQuantity('${item.name}', 1)" class="btn-qty" style="width:25px; height:25px; border-radius:50%; border:1px solid #ddd; cursor:pointer;">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                if (cart.length === 0) {
+                    cartItemsList.innerHTML = `
+                        <div style="text-align:center; padding-top:50px;">
+                            <p style="color:#999;">Giỏ hàng của bạn đang trống</p>
+                        </div>
+                    `;
+                }
+
+                
+                if (cartTotalAmount) {
+                    cartTotalAmount.innerText = totalMoney.toLocaleString() + '₫';
+                }
+            }
+        }
+
+    
+        setupOrderButtons();
+        updateCartUI();
+});
     </script>
 </head>
 <body>
@@ -31,7 +176,7 @@
                 <a href="#about" class="nav-links">Thông Tin</a>
             </li>
             <li class="nav-item">
-                <a href="#menu" class="nav-links">Mua Hàng</a>
+                <a href="collection.html" class="nav-links">Bộ sưu tập</a>
             </li>
             <li class="nav-item">
                 <a href="#contact  " class="nav-links">Liên Hệ</a>
@@ -43,8 +188,11 @@
                 <a href="login.html" class="nav-links"><img src="Images/user.png" alt=""></a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-links"><img src="Images/shopping-cart.png" alt=""></a>
-            </li>
+                <a href="javascript:void(0)" class="nav-links" id="cart-icon-trigger">
+                <img src="Images/shopping-cart.png" alt="Cart">
+                <span id="cart-count">0</span> 
+                </a>
+</li>
         </ul>
     </nav>
    </header> 
@@ -105,7 +253,7 @@
                     <p class="text">3,959,000₫</p>
                     <div class="menu-button">
                         <a href="" class="button-order">Đặt hàng</a>
-                        <a href="" class="button-thongtin">Thông Tin</a>
+                        
                     </div>
                 </li>
                 <li class="menu-items">
@@ -114,7 +262,7 @@
                     <p class="text">3,700,000₫</p>
                     <div class="menu-button">
                         <a href="" class="button-order">Đặt hàng</a>
-                        <a href="" class="button-thongtin">Thông Tin</a>
+                        
                     </div>
                 </li>
                 <li class="menu-items">
@@ -123,7 +271,7 @@
                     <p class="text">3,700,000₫</p>
                     <div class="menu-button">
                         <a href="" class="button-order">Đặt hàng</a>
-                        <a href="" class="button-thongtin">Thông Tin</a>
+                        
                     </div>
                 </li>
                 <li class="menu-items">
@@ -132,7 +280,7 @@
                     <p class="text">3,799,000₫</p>
                     <div class="menu-button">
                         <a href="" class="button-order">Đặt hàng</a>
-                        <a href="" class="button-thongtin">Thông Tin</a>
+                        
                     </div>
                 </li>
                 <li class="menu-items">
@@ -141,7 +289,7 @@
                     <p class="text">4,199,000₫</p>
                     <div class="menu-button">
                         <a href="" class="button-order">Đặt hàng</a>
-                        <a href="" class="button-thongtin">Thông Tin</a>
+                        
                     </div>
                 </li>
                 <li class="menu-items">
@@ -150,7 +298,7 @@
                     <p class="text">3,199,000₫</p>
                     <div class="menu-button">
                         <a href="" class="button-order">Đặt hàng</a>
-                        <a href="" class="button-thongtin">Thông Tin</a>
+                        
                     </div>
                 </li>
                 <li class="menu-items">
@@ -159,7 +307,7 @@
                     <p class="text">3,279,000₫</p>
                     <div class="menu-button">
                         <a href="" class="button-order">Đặt hàng</a>
-                        <a href="" class="button-thongtin">Thông Tin</a>
+                        
                     </div>
                 </li>
                 <li class="menu-items">
@@ -168,7 +316,7 @@
                     <p class="text">3,299,000₫</p>
                     <div class="menu-button">
                         <a href="" class="button-order">Đặt hàng</a>
-                        <a href="" class="button-thongtin">Thông Tin</a>
+                        
                     </div>
                 </li>
                 <li class="menu-items">
@@ -177,7 +325,7 @@
                     <p class="text">3,399,000₫</p>
                     <div class="menu-button">
                         <a href="" class="button-order">Đặt hàng</a>
-                        <a href="" class="button-thongtin">Thông Tin</a>
+                        
                     </div>
                 </li>
                 <li class="menu-items">
@@ -186,11 +334,13 @@
                     <p class="text">3,499,000₫</p>
                     <div class="menu-button">
                         <a href=" " class="button-order">Đặt hàng</a>
-                        <a href=" " class="button-thongtin">Thông Tin</a>
+                        
                     </div>
                 </li>
             </ul>
-
+            <div class="view-more-container">
+                <a href="collection.html" class="button-view-more">Xem thêm sản phẩm</a>
+            </div>
             </div>
          </section> 
           <!-- Contact us -->
@@ -236,6 +386,24 @@
         </div>
     </div>
    </footer>
+   <div id="cart-sidebar" class="cart-sidebar">
+    <div class="cart-header">
+        <h3>Giỏ hàng của bạn</h3>
+        <span class="close-sidebar">&times;</span>
+    </div>
+    <div id="cart-items-list">
+        <!-- Sản phẩm sẽ nhảy vào đây -->
+        <p class="empty-msg">Chưa có sản phẩm nào</p>
+    </div>
+    <div class="cart-footer">
+        <div class="total-price-row">
+            <span>Tổng tiền:</span>
+            <span id="cart-total-amount">0₫</span>
+        </div>
+        <button class="btn-checkout">Thanh Toán Ngay</button>
+    </div>
+</div>
+<div id="overlay"></div>
 
 </body>
 </html>

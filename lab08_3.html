@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="CSS/style_lab8.css">
+</head>
+<body>
+    <h2>THÔNG TIN USER</h2>
+    <div id="userinfo"></div>
+    <button id="btn_submit_hien">Hiện thông tin</button>
+    <button id="btn_submit_an">Ẩn</button>
+    <script>
+        const jsonString = `{
+            "ten": "Cao Trí Bảo",
+            "namsinh": "2005",
+            "mail": "caobaolol723@gmail.com",
+            "diachi": {
+                "thanhpho": "Tp.Hồ chí minh",
+                "phuong": "phường Tân Hưng",
+                "sonha": "60/20 Lâm Văn Bền"
+            }
+        }`;
+        // parse 
+        const userData = JSON.parse(jsonString);
+
+        //lấy button
+        const btn_submit_hien = document.getElementById("btn_submit_hien");
+
+        //an button
+        const btn_submit_an = document.getElementById("btn_submit_an");
+
+        //bắt sự kiện click
+        btn_submit_hien.addEventListener("click", function() {
+            hienThiThongTin(userData); // gọi hàm -> truyền đối tượng dữ liệu vào hàm
+        });
+
+        btn_submit_an.addEventListener("click", function() {
+        anThongTin(); // gọi hàm ẩn
+        });
+
+        // hàm hiển thị thông tin
+        function hienThiThongTin(data) {
+            var userDataElement = document.getElementById("userinfo");
+            userDataElement.innerHTML = `
+                <p>Họ và tên: ${data.ten}</p>
+                <p>Năm sinh: ${data.namsinh}</p>
+                <p>Email: ${data.mail}</p>
+                <p>Địa chỉ: ${data.diachi.sonha}, ${data.diachi.phuong}, ${data.diachi.thanhpho}</p>
+            `;
+        }
+        function anThongTin() {
+            var userDataElement = document.getElementById("userinfo");
+            userDataElement.innerHTML = ""; // xóa nội dung
+        }
+
+    </script>
+</body>
+</html>

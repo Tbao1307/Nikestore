@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NIKE STORE</title>
+    <link rel="stylesheet" href="CSS/styleindex.css">
+    <script>
+        window.onscroll = function() {
+            const header = document.querySelector("header");
+            if (window.scrollY > 50) {
+                header.classList.add("scrolled");
+            } else {
+                header.classList.remove("scrolled");
+            }
+        };
+       document.addEventListener('DOMContentLoaded', function() {
+    let cart = []; // Mảng chứa các sản phẩm đã chọn
+
+    const cartSidebar = document.getElementById('cart-sidebar');
+    const cartIcon = document.getElementById('cart-icon-trigger');
+    const closeBtn = document.querySelector('.close-sidebar');
+    const overlay = document.getElementById('overlay');
+    const cartCountBadge = document.getElementById('cart-count');
+    const cartItemsList = document.getElementById('cart-items-list');
+    const cartTotalAmount = document.getElementById('cart-total-amount');
+
+    // 1. MỞ GIỎ HÀNG (Khi chủ động bấm vào icon)
+    cartIcon.addEventListener('click', function() {
+        cartSidebar.classList.add('active');
+        overlay.classList.add('active');
+    });
+
+    // ĐÓNG GIỎ HÀNG
+    const closeCart = () => {
+        cartSidebar.classList.remove('active');
+        overlay.classList.remove('active');
+    };
+    closeBtn.onclick = closeCart;
+    overlay.onclick = closeCart;
+
+    // 2. XỬ LÝ KHI BẤM "ĐẶT HÀNG"
+    const orderButtons = document.querySelectorAll('.menu-items .button-order');
+    
+    orderButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault(); // Không cho nhảy trang
+
+            // Lấy thông tin từ thẻ cha .menu-items
+            const productCard = this.closest('.menu-items');
+            const name = productCard.querySelector('.name').innerText;
+            const priceStr = productCard.querySelector('.text').innerText;
+            const imgSrc = productCard.querySelector('img').src;
+            
+            // Chuyển "3,959,000₫" thành số 3959000 để tính toán
+            const price = parseInt(priceStr.replace(/[^0-9]/g, ""));
+
+            // Thêm vào mảng giỏ hàng
+            addProductToCart(name, price, imgSrc);
+
+            // Hiệu ứng nhẹ để người dùng biết đã thêm thành công (tùy chọn)
+            button.innerText = "Đã thêm!";
+            setTimeout(() => button.innerText = "Đặt hàng", 1000);
+        });
+    });
+
+    // 3. HÀM THÊM SẢN PHẨM
+    function addProductToCart(name, price, img) {
+        const existingItem = cart.find(item => item.name === name);
+
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            cart.push({ name, price, img, quantity: 1 });
+        }
+
+        updateCartUI();
+    }
+
+    // 4. CẬP NHẬT GIAO DIỆN (Dữ liệu ngầm)
+    function updateCartUI() {
+    // 1. Cập nhật số trên icon giỏ hàng
+    let totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
+    const cartCountBadge = document.getElementById('cart-count');
+    if(cartCountBadge) {
+        cartCountBadge.innerText = totalQty;
+        cartCountBadge.style.display = totalQty > 0 ? "block" : "none";
+    }
+
+    // 2. Vẽ danh sách sản phẩm
+    const cartItemsList = document.getElementById('cart-items-list');
+    cartItemsList.innerHTML = '';
+    let totalMoney = 0;
+
+    cart.forEach(item => {
+        totalMoney += item.price * item.quantity;
+        cartItemsList.innerHTML += `
+            <div class="cart-item-ui" style="display: flex; gap: 15px; margin-bottom: 20px; align-items: center;">
+                <img src="${item.img}" alt="" style="width: 70px; height: 70px; object-fit: cover; border-radius: 5px;">
+                <div class="cart-item-info">
+                    <h4 style="margin: 0; font-size: 14px;">${item.name}</h4>
+                    <p style="margin: 5px 0; color: #666;">${item.price.toLocaleString()}₫</p>
+                    
+                    <!-- BỘ NÚT TĂNG GIẢM -->
+                    <div class="qty-controls" style="display: flex; align-items: center; gap: 10px; margin-top: 8px;">
+                        <button onclick="changeQuantity('${item.name}', -1)" class="btn-qty">-</button>
+                        <span class="qty-num" style="font-weight: bold;">${item.quantity}</span>
+                        <button onclick="changeQuantity('${item.name}', 1)" class="btn-qty">+</button>
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+
+    if (cart.length === 0) {
+        cartItemsList.innerHTML = '<p style="text-align:center; color:#999; margin-top:50px;">Giỏ hàng đang trống</p>';
+    }
+
+    // Cập nhật tổng tiền
+    document.getElementById('cart-total-amount').innerText = totalMoney.toLocaleString() + '₫';
+    window.changeQuantity = function(productName, amount) {
+    const itemIndex = cart.findIndex(item => item.name === productName);
+    
+    if (itemIndex > -1) {
+        cart[itemIndex].quantity += amount;
+        
+        // Nếu giảm xuống 0 thì xóa khỏi giỏ hàng
+        if (cart[itemIndex].quantity < 1) {
+            cart.splice(itemIndex, 1);
+        }
+    }
+    updateCartUI(); // Vẽ lại giỏ hàng sau khi thay đổi
+}
+}
+});
+    </script>
+</head>
+<body>
+   <header>
+    <nav class="nav-bar section-content">
+        <a href="index.html" class="nav-logo">
+            <img src="Images/logo-nike.png" alt="">
+        </a>
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="index.html" class="nav-links">Trang Chủ</a>
+            </li>
+            <li class="nav-item">
+                <a href="index.html" class="nav-links">Thông Tin</a>
+            </li>
+            <li class="nav-item">
+                <a href="#menu" class="nav-links">Bộ sưu tập</a>
+            </li>
+            <li class="nav-item">
+                <a href="#contact  " class="nav-links">Liên Hệ</a>
+            </li>
+            <li class="nav-item">
+                <a href="labthuchanh.html" class="nav-links">Lab Thực Hành</a>
+            </li>
+            <li class="nav-item">
+                <a href="login.html" class="nav-links"><img src="Images/user.png" alt=""></a>
+            </li>
+            <li class="nav-item">
+                <a href="javascript:void(0)" class="nav-links" id="cart-icon-trigger">
+                <img src="Images/shopping-cart.png" alt="Cart">
+                <span id="cart-count">0</span> 
+                </a>
+</li>
+        </ul>
+    </nav>
+   </header> 
+  
+    <main class="collection-page">
+        <div class="section-content">
+            <h1 class="collection-title">Tất cả sản phẩm (10)</h1>
+            
+            <!-- Lưới sản phẩm -->
+            <div class="product-grid">
+                
+                <!-- Sản phẩm 1 -->
+                <div class="product-card menu-items">
+                    <div class="img-wrapper"><img src="Images/AIR+JORDAN+1+LOW+G.avif" alt=""></div>
+                    <div class="info-wrapper">
+                        <p class="status">Just In</p>
+                        <h3 class="name">AIR JORDAN 1 LOW+G</h3>
+                        <p class="category">Men's Shoes</p>
+                        <p class="text">3,959,000₫</p>
+                        <div class="card-buttons">
+                            <button class="button-order">Đặt hàng</button>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sản phẩm 2 -->
+                <div class="product-card menu-items">
+                    <div class="img-wrapper"><img src="Images/AIR+JORDAN+1+MID+SE (1).avif" alt=""></div>
+                    <div class="info-wrapper">
+                        <p class="status">Just In</p>
+                        <h3 class="name">AIR JORDAN 1 MID SE</h3>
+                        <p class="category">Men's Shoes</p>
+                        <p class="text">3,700,000₫</p>
+                        <div class="card-buttons">
+                            <button class="button-order">Đặt hàng</button>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sản phẩm 3 -->
+                <div class="product-card menu-items">
+                    <div class="img-wrapper"><img src="Images/AIR+JORDAN+1+MID+SE.avif" alt=""></div>
+                    <div class="info-wrapper">
+                        <p class="status">Just In</p>
+                        <h3 class="name">AIR JORDAN 1 MID SE</h3>
+                        <p class="category">Men's Shoes</p>
+                        <p class="text">3,700,000₫</p>
+                        <div class="card-buttons">
+                            <button class="button-order">Đặt hàng</button>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sản phẩm 4 -->
+                <div class="product-card menu-items">
+                    <div class="img-wrapper"><img src="Images/JORDAN+CMFT+ERA.avif" alt=""></div>
+                    <div class="info-wrapper">
+                        <p class="status">Just In</p>
+                        <h3 class="name">JORDAN CMFT ERA</h3>
+                        <p class="category">Men's Shoes</p>
+                        <p class="text">3,799,000₫</p>
+                        <div class="card-buttons">
+                            <button class="button-order">Đặt hàng</button>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sản phẩm 5 -->
+                <div class="product-card menu-items">
+                    <div class="img-wrapper"><img src="Images/JORDAN+MVP+92.avif" alt=""></div>
+                    <div class="info-wrapper">
+                        <p class="status">Just In</p>
+                        <h3 class="name">JORDAN MVP 92</h3>
+                        <p class="category">Men's Shoes</p>
+                        <p class="text">4,199,000₫</p>
+                        <div class="card-buttons">
+                            <button class="button-order">Đặt hàng</button>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sản phẩm 6 -->
+                <div class="product-card menu-items">
+                    <div class="img-wrapper"><img src="Images/TIEMPO+MAESTRO+ELITE+FG+SE.avif" alt=""></div>
+                    <div class="info-wrapper">
+                        <p class="status">Just In</p>
+                        <h3 class="name">TIEMPO MAESTRO ELITE FG SE</h3>
+                        <p class="category">Men's Shoes</p>
+                        <p class="text">3,199,000₫</p>
+                        <div class="card-buttons">
+                            <button class="button-order">Đặt hàng</button>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sản phẩm 7 -->
+                <div class="product-card menu-items">
+                    <div class="img-wrapper"><img src="Images/AIR+JORDAN+1+LOW.avif" alt=""></div>
+                    <div class="info-wrapper">
+                        <p class="status">Just In</p>
+                        <h3 class="name">AIR JORDAN 1 LOW</h3>
+                        <p class="category">Men's Shoes</p>
+                        <p class="text">3,279,000₫</p>
+                        <div class="card-buttons">
+                            <button class="button-order">Đặt hàng</button>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sản phẩm 8 -->
+                <div class="product-card menu-items">
+                    <div class="img-wrapper"><img src="Images/AIR+JORDAN+1+LOW (1).avif" alt=""></div>
+                    <div class="info-wrapper">
+                        <p class="status">Just In</p>
+                        <h3 class="name">AIR JORDAN 1 LOW</h3>
+                        <p class="category">Men's Shoes</p>
+                        <p class="text">3,299,000₫</p>
+                        <div class="card-buttons">
+                            <button class="button-order">Đặt hàng</button>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sản phẩm 9 -->
+                <div class="product-card menu-items">
+                    <div class="img-wrapper"><img src="Images/AIR+JORDAN+1+LOW+G+SPK.avif" alt=""></div>
+                    <div class="info-wrapper">
+                        <p class="status">Just In</p>
+                        <h3 class="name">AIR JORDAN 1 LOW G SPK</h3>
+                        <p class="category">Men's Shoes</p>
+                        <p class="text">3,399,000₫</p>
+                        <div class="card-buttons">
+                            <button class="button-order">Đặt hàng</button>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sản phẩm 10 -->
+                <div class="product-card menu-items">
+                    <div class="img-wrapper"><img src="Images/AIR+JORDAN+1+MID.avif" alt=""></div>
+                    <div class="info-wrapper">
+                        <p class="status">Just In</p>
+                        <h3 class="name">AIR JORDAN 1 MID</h3>
+                        <p class="category">Men's Shoes</p>
+                        <p class="text">3,499,000₫</p>
+                        <div class="card-buttons">
+                            <button class="button-order">Đặt hàng</button>
+                            
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+   </main>
+
+   <!-- Giỏ hàng Sidebar (Giống trang index) -->
+   <div id="cart-sidebar" class="cart-sidebar">
+        <div class="cart-header">
+            <h3>Giỏ hàng của bạn</h3>
+            <span class="close-sidebar">&times;</span>
+        </div>
+        <div id="cart-items-list"></div>
+        <div class="cart-footer">
+            <div class="total-price-row">
+                <span>Tổng tiền:</span>
+                <span id="cart-total-amount">0₫</span>
+            </div>
+            <button class="btn-checkout">Thanh Toán Ngay</button>
+        </div>
+   </div>
+   <div id="overlay"></div>
+
+   <script src="JS/script.js"></script>
+          <!-- Contact us -->
+           <section class="contact-section" id="contact">
+                <h2 class="contact-title">Liên Hệ</h2>
+                <div class="section-content">
+                        <ul class="contact-info-list">
+                            <li class="contact-info">67/18 Lâm Văn Bền, Phường Tân Hưng, Thành Phố Hồ Chí Minh, Việt Nam</li>
+                            <li class="contact-info">info@nikestore</li>
+                            <li class="contact-info">0934679388</li>
+                            <li class="contact-info">Thứ Hai - Chủ Nhật : 8:00 AM - 21:00 PM</li>
+                            <li class="contact-info">Chủ Nhật : Đóng Cửa</li>
+                            <li class="contact-info">www.nikestore.com</li>                       
+                        </ul>     
+                        <div class="contact-form">
+                            <form action="#" class="contact-form"></form>
+                            <input type="text" placeholder="Tên của bạn" class="form-input" required>
+                            <input type="text" placeholder="Email của bạn" class="form-input" required>
+                            <textarea name="" id="" placeholder="Nhập vào đây" class="form-input"></textarea>
+                            <button class="submit-button">Submit</button>
+                        </form> 
+                        </div>                                    
+                </div>
+           </section>
+         
+   
+   <!-- Footer -->
+   <footer>
+    <div class="footer-section">
+        <div class="footer-details">
+            <p class="content">© 2026 Nike, Inc. All rights reserved</p>
+
+            <div class="link-content">
+                <a href="#" class="fb-icon"><img src="Images/facebook-logo_1384863.png" alt=""></a>
+                <a href="#" class="ins-icon"><img src="Images/instagram_15713420.png" alt=""></a>
+                <a href="#" class="x-icon"><img src="Images/letter_16169759.png" alt=""></a>
+            </div>
+
+            <p class="policy-text">
+                <a href="" class="policy-link1">Privacy policy</a>
+                <a href="" class="policy-link2">Refund policy</a>
+            </p>
+        </div>
+    </div>
+   </footer>
+   <div id="cart-sidebar" class="cart-sidebar">
+    <div class="cart-header">
+        <h3>Giỏ hàng của bạn</h3>
+        <span class="close-sidebar">&times;</span>
+    </div>
+    <div id="cart-items-list">
+        <!-- Sản phẩm sẽ nhảy vào đây -->
+        <p class="empty-msg">Chưa có sản phẩm nào</p>
+    </div>
+    <div class="cart-footer">
+        <div class="total-price-row">
+            <span>Tổng tiền:</span>
+            <span id="cart-total-amount">0₫</span>
+        </div>
+        <button class="btn-checkout">Thanh Toán Ngay</button>
+    </div>
+</div>
+<div id="overlay"></div>
+
+</body>
+</html>

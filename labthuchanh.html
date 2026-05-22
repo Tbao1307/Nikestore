@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NIKE STORE</title>
-    <link rel="stylesheet" href="CSS/style.css">
+    <link rel="stylesheet" href="CSS/styleindex.css">
     <script>
+        
         window.onscroll = function() {
             const header = document.querySelector("header");
             if (window.scrollY > 50) {
@@ -14,7 +15,151 @@
                 header.classList.remove("scrolled");
             }
         };
+
+
+    document.addEventListener('DOMContentLoaded', function() {
         
+        let cart = JSON.parse(localStorage.getItem('nike_cart')) || [];
+
+        const cartSidebar = document.getElementById('cart-sidebar');
+        const cartIcon = document.getElementById('cart-icon-trigger');
+        const closeBtn = document.querySelector('.close-sidebar');
+        const overlay = document.getElementById('overlay');
+        const cartItemsList = document.getElementById('cart-items-list');
+        const cartTotalAmount = document.getElementById('cart-total-amount');
+        const cartCountBadge = document.getElementById('cart-count');
+
+        
+        if (cartIcon) {
+            cartIcon.addEventListener('click', function() {
+                cartSidebar.classList.add('active');
+                overlay.classList.add('active');
+            });
+        }
+
+        
+        const closeCart = () => {
+            cartSidebar.classList.remove('active');
+            overlay.classList.remove('active');
+        };
+        if (closeBtn) closeBtn.onclick = closeCart;
+        if (overlay) overlay.onclick = closeCart;
+
+        
+        function setupOrderButtons() {
+            const orderButtons = document.querySelectorAll('.button-order');
+            orderButtons.forEach(button => {
+                
+                button.onclick = null; 
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    
+                    const productCard = this.closest('.menu-items') || this.closest('.product-card');
+                    const name = productCard.querySelector('.name').innerText;
+                    const priceStr = productCard.querySelector('.text').innerText;
+                    const imgSrc = productCard.querySelector('img').src;
+                    
+                    
+                    const price = parseInt(priceStr.replace(/[^0-9]/g, ""));
+
+                    addProductToCart(name, price, imgSrc);
+
+                    
+                    const originalText = this.innerText;
+                    this.innerText = "Đã thêm!";
+                    setTimeout(() => this.innerText = originalText, 1000);
+                });
+            });
+        }
+
+        
+        function addProductToCart(name, price, img) {
+            const existingItem = cart.find(item => item.name === name);
+
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ name, price, img, quantity: 1 });
+            }
+
+            updateCartUI();
+        }
+
+        
+        window.changeQuantity = function(productName, amount) {
+            const itemIndex = cart.findIndex(item => item.name === productName);
+            
+            if (itemIndex > -1) {
+                cart[itemIndex].quantity += amount;
+                
+                
+                if (cart[itemIndex].quantity < 1) {
+                    cart.splice(itemIndex, 1);
+                }
+            }
+            updateCartUI();
+        };
+
+        
+        function updateCartUI() {
+            
+            localStorage.setItem('nike_cart', JSON.stringify(cart));
+
+            let totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const cartCountBadge = document.getElementById('cart-count');
+    
+            if (cartCountBadge) {
+                cartCountBadge.innerText = totalQty;
+                
+                if (totalQty > 0) {
+                    cartCountBadge.style.display = "flex";
+                } else {
+                    cartCountBadge.style.display = "none";
+                }
+            }
+            if (cartItemsList) {
+                cartItemsList.innerHTML = '';
+                let totalMoney = 0;
+
+                cart.forEach(item => {
+                    totalMoney += item.price * item.quantity;
+                    cartItemsList.innerHTML += `
+                        <div class="cart-item-ui" style="display: flex; gap: 15px; margin-bottom: 20px; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 15px;">
+                            <img src="${item.img}" alt="" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; background: #f6f6f6;">
+                            <div class="cart-item-info" style="flex: 1;">
+                                <h4 style="margin: 0; font-size: 15px; font-weight: bold;">${item.name}</h4>
+                                <p style="margin: 5px 0; color: #707072; font-size: 14px;">${item.price.toLocaleString()}₫</p>
+                                
+                                <div class="quantity-controls" style="display: flex; align-items: center; gap: 12px; margin-top: 8px;">
+                                    <button onclick="changeQuantity('${item.name}', -1)" class="btn-qty" style="width:25px; height:25px; border-radius:50%; border:1px solid #ddd; cursor:pointer;">-</button>
+                                    <span class="qty-num" style="font-weight: bold; font-size: 14px;">${item.quantity}</span>
+                                    <button onclick="changeQuantity('${item.name}', 1)" class="btn-qty" style="width:25px; height:25px; border-radius:50%; border:1px solid #ddd; cursor:pointer;">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                if (cart.length === 0) {
+                    cartItemsList.innerHTML = `
+                        <div style="text-align:center; padding-top:50px;">
+                            <p style="color:#999;">Giỏ hàng của bạn đang trống</p>
+                        </div>
+                    `;
+                }
+
+                
+                if (cartTotalAmount) {
+                    cartTotalAmount.innerText = totalMoney.toLocaleString() + '₫';
+                }
+            }
+        }
+
+    
+        setupOrderButtons();
+        updateCartUI();
+});
     </script>
 </head>
 <body>
@@ -121,8 +266,8 @@
         <div class="lab-card">
             <h3 class="lab-title">Lab07: Javascript</h3>
             <div class="lab-list">
-                <a href="#">Lab7_1</a>
-                <a href="#">Lab7_2</a>
+                <a href="lab07_1.html">Lab7_1</a>
+                <a href="lab07_2.html">Lab7_2</a>
             </div>
             
         </div>
@@ -131,9 +276,9 @@
         <div class="lab-card">
             <h3 class="lab-title">Lab08: Javascript nâng cao</h3>
             <div class="lab-list">
-                <a href="#">Lab8_1</a>
-                <a href="#">Lab8_2</a>
-                <a href="#">Lab8_3</a>
+                <a href="lab08_slider.html">Lab8_1</a>
+                <a href="lab08_2.html">Lab8_2</a>
+                <a href="lab08_3.html">Lab8_3</a>
             </div>
             
         </div>
